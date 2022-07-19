@@ -28,8 +28,8 @@ The first experiment---`Exp1.csv`---consisted of a full-factorial experiment wit
 
 The experiment's table is depicted below:
 
-| *Factors* | *Symbol* | *Units* | *Levels* ||| *Number of levels* |
-| --- | --- | --- | --- | --- |
+| *Factors* | *Symbol* | *Units* | *Levels* | *Number of levels* | --- | --- |
+| --------- | -------- | ------- | -------- | --- | --- |--------- |
 | Depth of cut | ap | mm | 0.25 | 0.5 | 0.8 | 3 |
 | Cutting speed  | vc | m/min | 310 | 350 | 390 | 3 |
 | Feed rate | f | mm/rev | 0.07 | 0.1 | 0.13 | 3 |
