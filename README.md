@@ -28,7 +28,7 @@ The first experiment---`Exp1.csv`---consisted of a full-factorial experiment wit
 
 The experiment's table is depicted below:
 
-| *Factors* | *Symbol* | *Units* | *Levels* | *Number of levels* | --- | --- |
+| *Factors* | *Symbol* | *Units* | *Levels* ||| *Number of levels* |
 | --------- | -------- | ------- | -------- | --- | --- |--------- |
 | Depth of cut | ap | mm | 0.25 | 0.5 | 0.8 | 3 |
 | Cutting speed  | vc | m/min | 310 | 350 | 390 | 3 |
@@ -39,8 +39,8 @@ The second experiment---`Exp2.csv`---consisted of an experiment with three facto
 
 The experiment's table is depicted below:
 
-| *Factors* | *Symbol* | *Units* | *Levels* |||| *Number of levels* |
-| --- | --- | --- | --- |||| --- |
+| *Factors* | *Symbol* | *Units* | *Levels* ||| *Number of levels* |
+| :--- | --- | --- | --- | --- | --- | --- | --- |
 | Depth of cut | ap | mm | 0.5 | 0.8 ||| 2 |
 | Feed rate | f | mm/rev | 0.07 | 0.09 | 0.11 | 0.13 | 4 |
 | Tool condition | TCond | mm | 0.0 | 0.1 | 0.3 || 3 |
