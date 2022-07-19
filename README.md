@@ -1,4 +1,7 @@
+# Header
 Made in the [COMPETENCE CENTER IN MANUFACTURING (CCM)](https://www.ccm.ita.br/), a laboratory of the [AERONAUTICS INSTITUTE OF TECHNOLOGY (ITA)](http://www.ita.br/).
+The dataset is available at kaggle under the DOI: 
+
 
 # Overall
 This dataset was produced within a Master's Dissertation work, consisting of two experiments---Exp1 and Exp2---based on turning an AISI H13 steel with cutting fluid. The first experiment with theoretically new-tool conditions produced 324 samples for each measured roughness parameter. The second with the cutting tool flank wear varying in three levels produced 288 samples for each measured roughness parameter.
@@ -26,7 +29,7 @@ The first experiment---`Exp1.csv`---consisted of a full-factorial experiment wit
 The experiment's table is depicted below:
 
 | *Factors* | *Symbol* | *Units* | *Levels* ||| *Number of levels* |
-| --- | --- |
+| --- | --- | --- | --- | --- |
 | Depth of cut | ap | mm | 0.25 | 0.5 | 0.8 | 3 |
 | Cutting speed  | vc | m/min | 310 | 350 | 390 | 3 |
 | Feed rate | f | mm/rev | 0.07 | 0.1 | 0.13 | 3 |
@@ -37,7 +40,7 @@ The second experiment---`Exp2.csv`---consisted of an experiment with three facto
 The experiment's table is depicted below:
 
 | *Factors* | *Symbol* | *Units* | *Levels* |||| *Number of levels* |
-| --- | --- |
+| --- | --- | --- | --- |||| --- |
 | Depth of cut | ap | mm | 0.5 | 0.8 ||| 2 |
 | Feed rate | f | mm/rev | 0.07 | 0.09 | 0.11 | 0.13 | 4 |
 | Tool condition | TCond | mm | 0.0 | 0.1 | 0.3 || 3 |
