@@ -1,6 +1,6 @@
 # Header
 Made in the [COMPETENCE CENTER IN MANUFACTURING (CCM)](https://www.ccm.ita.br/), a laboratory of the [AERONAUTICS INSTITUTE OF TECHNOLOGY (ITA)](http://www.ita.br/).
-The dataset is available at kaggle under the DOI: 
+The dataset is available at Kaggle under the DOI: , or at the URL: 
 
 
 # Overall
