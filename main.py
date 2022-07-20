@@ -1,4 +1,5 @@
 # LIBRARIES
+from gc import callbacks
 import math
 from black import main
 import pandas as pd
@@ -65,7 +66,7 @@ for train_index, test_index in split.split(main_df, main_df['f']):
     stratified_train = main_df.loc[train_index]
     stratified_test = main_df.loc[test_index]
 
-# Check for stratification correctness
+# Check for stratification proportion correctness
 print(stratified_train['f'].value_counts() / len(stratified_train))
 print(stratified_test['f'].value_counts() / len(stratified_test))
 
@@ -79,3 +80,74 @@ x_test = stratified_test.copy()[features]
 y_train = stratified_train.copy()[labels]
 y_test = stratified_test.copy()[labels]
 
+# Spare validation set
+x_train, x_val,\
+    y_train, y_val = train_test_split(x_train_and_validation, y_train,
+    test_size = 0.2, random_state = 42)
+
+# Scale x
+sc = preprocessing.StandardScaler(copy=True, with_std=True, with_mean=True)
+
+x_train_sc_np_array = sc.fit_transform(x_train)
+x_train_sc = pd.DataFrame(data = x_train_sc_np_array,
+    columns = x_train.columns, index = x_train.index)
+
+x_val_sc_np_array = sc.transform(x_val)
+x_val_sc = pd.DataFrame(data = x_val_sc_np_array,
+    columns = x_val.columns, index=x_val.index)
+
+x_test_sc_np_array = sc.transform(x_test)
+x_test_sc = pd.DataFrame(data = x_test_sc_np_array, 
+    columns = x_test.columns, index = x_test.index)
+
+# MODEL BUILD
+# Clean session
+keras.backend.clear_session()
+
+# Define standard layers
+Regularized_Dense = partial(keras.layers.Dense, activation = "relu")
+
+
+# Funtion to create model
+def create_model():
+    '''This function creates a sequential model'''
+    model = keras.Sequential()
+    model.add(keras.Input(shape = x_train_sc.shape[1:]))
+    model.add(Regularized_Dense(28))
+    # model.add(layers.Dropout(0.1))
+    model.add(Regularized_Dense(56))
+    # model.add(layers.Dropout(0.1))
+    model.add(Regularized_Dense(14))
+    # model.add(layers.Dropout(0.1))
+    model.add(layers.Dense(1))
+    
+    optimizer = keras.optimizers.SGD(learning_rate=0.01, momentum=0.95)
+    
+    model.compile(
+        loss = "mean_squared_error",
+        optimizer = optimizer,
+        metrics = ["mean_absolute_percentage_error", "mean_absolute_error"])
+    
+    return model
+
+
+es = EarlyStopping(monitor = "loss",
+    min_delta = 0.0001,
+    patience = 500,
+    verbose = 1,
+    mode = "min")
+
+callbacks = [es]
+
+model = create_model()
+model.summary()
+
+# LEARN
+epochs = 10000
+history = model.fit(x_train_sc, y_train, epochs = epochs,
+                    validation_data = (x_val_sc, y_val),
+                    batch_size = 20, callbacks = callbacks,
+                    verbose = 0)
+
+# EVALUATE
+loss = model.evaluate(x_test_sc, y_test)
