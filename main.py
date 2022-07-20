@@ -1,12 +1,11 @@
 # LIBRARIES
-from gc import callbacks
 import math
-from black import main
 import pandas as pd
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
+import chime
 from matplotlib import rc
 from tensorflow import keras
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split, ShuffleSplit, GroupShuffleSplit
@@ -41,6 +40,9 @@ color = ['black', 'dgray', 'gray', 'dblue', 'blue', 'lblue', 'red', 'orange']
 i = 0
 for i in range(0, 8):
     color[i] = [colors[i] / 255 for colors[i] in colors[i]]
+
+# Miscelania
+chime.theme('material')
 
 # DATA PREPARATION
 # Load file
@@ -118,11 +120,11 @@ def create_model():
     '''This function creates a sequential model'''
     model = keras.Sequential()
     model.add(keras.Input(shape = x_train_sc.shape[1:]))
-    model.add(Regularized_Dense(28))
+    model.add(Regularized_Dense(512))
     # model.add(layers.Dropout(0.1))
-    model.add(Regularized_Dense(56))
+    model.add(Regularized_Dense(1024))
     # model.add(layers.Dropout(0.1))
-    model.add(Regularized_Dense(14))
+    model.add(Regularized_Dense(256))
     # model.add(layers.Dropout(0.1))
     model.add(layers.Dense(1))
     
@@ -153,6 +155,7 @@ history = model.fit(x_train_sc, y_train, epochs = epochs,
                     validation_data = (x_val_sc, y_val),
                     batch_size = 20, callbacks = callbacks,
                     verbose = 1)
+chime.success()
 
 # EVALUATE
 loss = model.evaluate(x_test_sc, y_test)
