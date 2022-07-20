@@ -1,6 +1,6 @@
 # Header
 Made in the [COMPETENCE CENTER IN MANUFACTURING (CCM)](https://www.ccm.ita.br/), a laboratory of the [AERONAUTICS INSTITUTE OF TECHNOLOGY (ITA)](http://www.ita.br/).
-The dataset is available at Kaggle under the DOI: , or at the URL: 
+The dataset is available at Kaggle under the DOI: 10.34740/kaggle/ds/2205074, or at the URL: https://www.kaggle.com/datasets/adorigueto/cnc-turning-roughness-forces-and-tool-wear/settings
 
 
 # Overall

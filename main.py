@@ -5,7 +5,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
-import chime
+import chime        # Notification sounds
 from matplotlib import rc
 from tensorflow import keras
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split, ShuffleSplit, GroupShuffleSplit
@@ -41,7 +41,7 @@ i = 0
 for i in range(0, 8):
     color[i] = [colors[i] / 255 for colors[i] in colors[i]]
 
-# Miscelania
+# Notification sounds
 chime.theme('material')
 
 # DATA PREPARATION
@@ -120,11 +120,11 @@ def create_model():
     '''This function creates a sequential model'''
     model = keras.Sequential()
     model.add(keras.Input(shape = x_train_sc.shape[1:]))
-    model.add(Regularized_Dense(512))
+    model.add(Regularized_Dense(64))
     # model.add(layers.Dropout(0.1))
-    model.add(Regularized_Dense(1024))
+    model.add(Regularized_Dense(128))
     # model.add(layers.Dropout(0.1))
-    model.add(Regularized_Dense(256))
+    model.add(Regularized_Dense(32))
     # model.add(layers.Dropout(0.1))
     model.add(layers.Dense(1))
     
