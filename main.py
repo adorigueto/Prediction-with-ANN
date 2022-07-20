@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import pickle
 from matplotlib import rc
 from tensorflow import keras
-from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
+from sklearn.model_selection import StratifiedShuffleSplit, train_test_split, ShuffleSplit, GroupShuffleSplit
 from sklearn import preprocessing
 from tensorflow.keras import layers
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -54,15 +54,17 @@ print("\nfile head\n", file.head())
 main_df = file.copy()
 main_df.drop(['Exp', 'Tool', 'Block', 'SBlock',
            'Position', 'Condition', 'TCond',
-           'Length', 'Di', 'Df', 'CTime', 'RAngle', 'Run'],
+           'Length', 'Di', 'Df', 'CTime', 'RAngle'],
            axis=1, inplace=True)
 print(main_df.head())
 
 # Stratified train-test split (80/20)
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+split = ShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+split = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 
 # Stratified in relation to the feed rate ('f')
-for train_index, test_index in split.split(main_df, main_df['f']):
+for train_index, test_index in split.split(main_df, main_df['f'], groups=main_df["Run"]):
     stratified_train = main_df.loc[train_index]
     stratified_test = main_df.loc[test_index]
 
@@ -70,8 +72,11 @@ for train_index, test_index in split.split(main_df, main_df['f']):
 print(stratified_train['f'].value_counts() / len(stratified_train))
 print(stratified_test['f'].value_counts() / len(stratified_test))
 
+# Check for data leakage --- all ['Run'].value_counts must be == 6
+print(stratified_train['Run'].value_counts())
+
 # Define features and labels
-features = ['ap', 'vc', 'f', 'Fx', 'Fy', 'Fy', 'Fz', 'F']
+features = ['ap', 'vc', 'f', 'Fx', 'Fy', 'Fz', 'F']
 labels = ['Ra']
 
 x_train_and_validation = stratified_train.copy()[features]
@@ -147,7 +152,19 @@ epochs = 10000
 history = model.fit(x_train_sc, y_train, epochs = epochs,
                     validation_data = (x_val_sc, y_val),
                     batch_size = 20, callbacks = callbacks,
-                    verbose = 0)
+                    verbose = 1)
 
 # EVALUATE
 loss = model.evaluate(x_test_sc, y_test)
+
+epochs = np.arange(0, len(history.history['loss']))
+
+train_loss = history.history['loss']
+val_loss = history.history['val_loss']
+plt.plot(epochs - 0.5, train_loss, color=color[4], alpha=0.8, label='Training loss')
+plt.plot(epochs, val_loss, color=color[7], alpha=0.8, label='Validation loss')
+plt.title('Training and Validation loss', size=20, fontweight='bold')
+plt.xlabel('Epochs', size=18)
+plt.ylabel('Loss', size=18)
+plt.legend()
+plt.show()
