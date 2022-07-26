@@ -52,6 +52,16 @@ file_name = "top_force.csv"
 file = pd.read_csv(directory + file_name)
 print("\nfile head\n", file.head())
 
+# Exploring the data
+file_1 = file[["Run", "f", "Ra"]].groupby("Run")
+file_mean_ra = file_1[["Ra"]].agg([np.mean, np.std, np.var])
+print(file_mean_ra)
+std_max = file_mean_ra.iloc[:,1].agg(np.max)
+mean_max = file_mean_ra.iloc[:, 0].agg(np.max)
+cv_max = std_max / mean_max
+cv_max
+file_1.head()
+
 # Dropping unnecessary columns
 main_df = file.copy()
 main_df.drop(['Exp', 'Tool', 'Block', 'SBlock',
